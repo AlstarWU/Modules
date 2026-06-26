@@ -1,0 +1,12 @@
+#!name=YouTube SponsorBlock
+#!desc=为 YouTube Web 注入 SponsorBlock 自动跳过逻辑，适用于 Surge 的 HTTP Response Rewrite
+#!arguments=服务地址:https://sponsor.ajay.app,启用调试模式:false
+#!arguments-desc=1. 仅作用于浏览器访问 youtube.com 的网页端，不适用于 YouTube App
+#!arguments-desc=2. 需要开启 MITM，并在系统/浏览器中信任 Surge 证书
+#!arguments-desc=3. 默认跳过 sponsor/selfpromo/interaction/intro/outro/preview/music_offtopic/filler 分类
+
+[Script]
+youtube.sponsorblock.web = type=http-response,pattern=^https:\/\/(www\.)?youtube\.com\/(watch|shorts|embed|live)(\?.*)?,requires-body=1,max-size=-1,binary-body-mode=0,script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/sponsorblock.web.js,argument="{\"server\":\"{{{服务地址}}}\",\"debug\":{{{启用调试模式}}}}"
+
+[MITM]
+hostname = %APPEND% www.youtube.com, youtube.com
